@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Distributions :{% endblock %}
+
+
+{% block content %}
+
+<style>
+    #myChart{
+        width:500px;
+    }
+</style>
+
+
+<div class = "container">
+<div class="graph">
+
+    <h3>Routes prone to traffic</h3>
+    {{ traffic | safe }}
+
+    <h3>Routes prone to accidents</h3>
+    {{ accident | safe }}
+
+    
+</div>
+
+<div class="graph">
+    <h3>Routes with alot of police_activity</h3>
+    {{ police | safe }}
+    
+</div>
+
+
+<div class="graph">
+    <h3>Routes prone to road blocks</h3>
+    {{ roadblock | safe }}
+    
+</div>
+</div>
+
+
+{% endblock %}

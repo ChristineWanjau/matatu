@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <br>
+  {% block title %}Common situations:{% endblock %}
+{% block content %}
+<div class="container">
+
+    {{ plot | safe }}
+</div>
+{% endblock %}

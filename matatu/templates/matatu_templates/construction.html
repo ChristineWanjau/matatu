@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Map showing roads under construction:{% endblock %}
+{% block content %}
+
+<div class="container">
+    <div id="mapid"> </div>
+    </div>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+  integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+  crossorigin="" />
+
+<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+  integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+  crossorigin=""></script>
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="{% static 'js/leaflet.heat.js' %}"></script>
+
+<style>
+  #mapid {
+    height: 400px;
+  }
+</style>
+
+<script type="text/javascript">
+  var received_data = {{ data| safe }}
+  // console.log(received_data);
+
+
+  var mymap = L.map('mapid').setView([-1.280, 36.850], 12);
+
+  // base layer 
+  // used Mapbox api for this layer 
+  // Find the documentation here:  https://docs.mapbox.com/api/maps/#static-tiles
+  var baseLayer = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYnJheW8iLCJhIjoiY2themRmcXFoMDByMTJ4cW92bXgxZ3JvOCJ9.POhBtURTuvIe4tTnYqo7Mw', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    id: 'mapbox/dark-v10',
+    tileSize: 512,
+    zoomOffset: -1,
+    accessToken: 'pk.eyJ1IjoiYnJheW8iLCJhIjoiY2themRmcXFoMDByMTJ4cW92bXgxZ3JvOCJ9.POhBtURTuvIe4tTnYqo7Mw'
+  })
+  mymap.addLayer(baseLayer)
+  var locations = [
+    [-1.395968,36.7520106,50],
+    [-1.2477776,36.8637644,50],
+    [-1.2977776,36.8937644,50],
+    [-1.2977776,37.347144,50],
+    [-1.3618776,36.656644,50],
+    [-1.2453776,36.8669,50],
+    [-1.3056802,36.7429657,50],
+    [-1.2995,36.7907,50],
+    [-1.3008,36.8172,50],
+    [-1.22,36.894302,50],
+    [-1.16,36.53,50],
+    [-1.2677178, 36.8045662,50],
+    [-1.2245363,51.72426,50],
+
+  ]
+  // var response = received_data;
+  //   for (var i = 0; i < response.length; i++) {
+  //       alert("LOOPing")
+  //     var coord = []//array to hold lat, long and intensity....from backend 
+  //     var x = response[i]
+  //     // console.log(x.lat)
+  //     coord.push(x.lat + 0.001, x.long + 0.050, x.count * 10)//hii addition ni ujinga tu ..trying to get different locations
+  //     console.log(coord)
+  //     locations.push(coord) //creating 2d array of coordinates and intensity(array within an array)
+  //   }
+
+  
+  console.log(locations)
+  var heatmapLayer = L.heatLayer(locations, { radius: 20 });
+  mymap.addLayer(heatmapLayer);
+</script>
+{% endblock %}

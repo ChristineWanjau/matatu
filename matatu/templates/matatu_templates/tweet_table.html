@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Current Situation:{% endblock %}
+
+{% block content %}
+<a href="{% url 'map' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i>View as Map</a>
+<div class="container">
+    <table class="table table-bordered table-dark">
+        <thead>
+            <th scope="col">Date</th>
+            <th scope="col">Route</th>
+            <th scope="col">Condition</th>
+        <tbody>
+            {% for r in results %}
+            <tr>
+           <td scope="row">{{ r.date}}</td>
+           <td scope="row">{{ r.route}}</td>
+           <td scope="row">{{ r.conditions}}</td>
+           </tr>
+           {% endfor %}
+        </tbody>
+        </thead>
+    </table>
+  
+</div>
+{% endblock %}

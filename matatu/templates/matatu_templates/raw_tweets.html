@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Raw Tweets : 
+<a href="{% url 'positive_tweets' %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Positive tweets</a>
+<a href="{% url 'negative_tweets' %}" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Negative tweets</a>
+{% endblock %}
+{% block content %}
+<div class= "container">
+{% for raw in raw_tweets %}
+<div class="card">
+    <h1>{{ raw.condiitons}}</h1>
+    <div class="card-body">
+        <p>{{ raw.date }}</p>
+        <p>{{ raw.text }}</p>
+        <i class = "fas fa-map-marker"></i><sub>{{ raw.route }}</sub>
+    </div>
+</div>
+<br>
+{% endfor %}
+</div>
+{% endblock %}

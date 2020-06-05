@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Raw Tweets : 
+<a href="{% url 'positive_tweets' %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Positive tweets</a>
+<a href="{% url 'negative_tweets' %}" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Negative tweets</a>
+{% endblock %}
+{% block content %}
+<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+
+
+<div class= "container">
+{% for neg in negative_tweets %}
+<div class="card">
+    <h1>{{ neg.conditons}}</h1>
+    <div class="card-body">
+        <p>{{ neg.date }}</p>
+        <p>{{ neg.text }}</p>
+        <i class = "fas fa-map-marker"></i><sub>{{ neg.route }}</sub>
+    </div>
+</div>
+<br>
+{% endfor %}
+</div>
+
+{% endblock %}

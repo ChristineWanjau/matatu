@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <br>
+{% block title %}Routes tweeted most about:{% endblock %}
+
+{% block content %}
+
+    {{ plot | safe }}
+
+<div>
+  <p>Some of the tweets presented</p>
+</div>
+{% endblock %}

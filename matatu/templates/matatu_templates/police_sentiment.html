@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Sentiment Analysis on the police:
+{% endblock %}
+{% block content %}
+
+<!-- {% for t in sentiment %}
+<li>{{ t }}</li>
+{% endfor %} -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<p>The graph describes how various passengers negatively or positively feel about the police based on different routes:</p>
+<canvas id="myChart"></canvas>
+
+<script>
+
+
+var ctx = document.getElementById('myChart');
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['Huruma', 'Thika Road', 'Mombasa Road','Ngong Road','Langata Road','Eastern Bypass','Outering','Uhuru Highway', 'Highrise', 'Buruburu',
+                  'CBD', 'Kawangware', 'Embakasi', 'babadogo', 'rongai', 'Kangemi','Kenyatta'],
+        datasets: [{
+            label: 'polarity range [1,-1]; 1 being very positive and -1 being very negative;',
+            data:[-0.233333,0.25,0,-0.344444,0,-0.34,-0.0233,0.433322,0.345,-0.2345,-0.2345,0.333,0.33344455,0.35566,-0.212334,0.0223],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+
+</script>
+
+{% endblock %}

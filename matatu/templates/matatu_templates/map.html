@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Map showing conditions of the route: 
+<a href="{% url 'tweet_table' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i>View as Table</a>
+{% endblock %}
+{% block content %}
+<div id="mapid" ></div> 
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js" integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA==" crossorigin=""></script>
+  <script src="{% static 'js/jquery.js' %}" ></script>
+  <script src="https://gist.githubusercontent.com/ramiroaznar/bf8398d0c5aebeb4d129ca6d2b7615f5/raw/8c37b9371d61ebd705a3f75f45380134965a219a/leaflet-heat.js"></script>
+    <style>
+        #mapid { height: 500px;}
+    </style>
+      
+    <!-- <script src=" {% static 'js/main.js'%}"></script> -->
+    <script type="text/javascript">
+      var received_data = {{data|safe }}
+      // console.log(received_data);
+
+
+    var mymap = L.map('mapid').setView([-1.280,36.850], 12);
+
+// base layer 
+// used Mapbox api for this layer 
+// Find the documentation here:  https://docs.mapbox.com/api/maps/#static-tiles
+var baseLayer = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYnJheW8iLCJhIjoiY2themRmcXFoMDByMTJ4cW92bXgxZ3JvOCJ9.POhBtURTuvIe4tTnYqo7Mw', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    id: 'mapbox/dark-v10',
+    tileSize: 512,
+    zoomOffset: -1,
+    accessToken: 'pk.eyJ1IjoiYnJheW8iLCJhIjoiY2themRmcXFoMDByMTJ4cW92bXgxZ3JvOCJ9.POhBtURTuvIe4tTnYqo7Mw'
+})
+
+// var response = $.parseJSON(JSON.stringify(received_data))
+//             $.each(response, function(index, element){//loop through each object and create a circle ....you can choose any other 
+//               console.log(element)
+var greenIcon = new L.Icon({
+  iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
+
+var redIcon = new L.Icon({
+  iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
+
+              var marker1 = L.marker([-1.2896711,36.8189359],{icon: greenIcon}).addTo(mymap);//adding to map defined huko juu
+              marker1.bindPopup("uhuru highway" + '<br>' + "Road Block").openPopup();
+              var marker2 = L.marker([-1.3745958,36.9225478]).addTo(mymap);//adding to map defined huko juu
+              marker2.bindPopup("Mombasa Road" + '<br>' + "traffic").openPopup();
+              var marker3 = L.marker([-1.2245363,51.72426]).addTo(mymap);//adding to map defined huko juu
+              marker3.bindPopup("Eastern Bypass" + '<br>' + "Accident").openPopup();
+              var marker4 = L.marker([-1.2677178, 36.8045662],{icon: redIcon}).addTo(mymap);//adding to map defined huko juu
+              marker4.bindPopup("Waiyaki Way" + '<br>' + "Accident").openPopup();
+              var marker4 = L.marker([-1.2689126, 36.8103692],{icon: redIcon}).addTo(mymap);//adding to map defined huko juu
+              marker4.bindPopup("Waiyaki Way ,Chiromo Lane" + '<br>' + "Accident").openPopup();
+              var marker5 = L.marker([-1.14,36.52]).addTo(mymap);//adding to map defined huko juu
+              marker5.bindPopup("Thika Road" + '<br>' + "Heavy Traffic").openPopup();
+              var marker6 = L.marker([-1.3618,36.6566]).addTo(mymap);//adding to map defined huko juu
+              marker6.bindPopup("Ngong Road" + '<br>' + "Heavy Traffic").openPopup();
+              var marker7 = L.marker([-1.3008,36.8172]).addTo(mymap);//adding to map defined huko juu
+              marker7.bindPopup("Upper Hill " + '<br>' + "Heavy Traffic").openPopup();
+              var marker8 = L.marker([-1.2887517, 36.8398125]).addTo(mymap);//adding to map defined huko juu
+              marker8.bindPopup("Landhies Road" + '<br>' + "traffic").openPopup();
+              var marker8 = L.marker([-1.297756, 36.869982]).addTo(mymap);//adding to map defined huko juu
+              marker8.bindPopup("Jogoo Road" + '<br>' + "High traffic").openPopup();
+              var marker9 = L.marker([-1.2762345, 36.8310842],{icon : redIcon}).addTo(mymap);//adding to map defined huko juu
+              marker9.bindPopup("Ngara,Park Road" + '<br>' + "Accident").openPopup();
+              var marker10 = L.marker([-1.283416, 36.823537],{icon : greenIcon}).addTo(mymap);//adding to map defined huko juu
+              marker10.bindPopup("Moi Avenue,CBD" + '<br>' + "Riots").openPopup();
+              var marker10 = L.marker([-1.299698, 36.795125],).addTo(mymap);//adding to map defined huko juu
+              marker10.bindPopup("Ngong Road" + '<br>' + "Stand still traffic").openPopup();
+              
+    //           })
+            mymap.addLayer(baseLayer)
+    // </script>
+{% endblock %}
