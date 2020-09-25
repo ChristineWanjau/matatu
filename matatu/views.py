@@ -24,12 +24,15 @@ def tweet_table(request):
            lookups = Q(route__icontains=query) | Q(conditions__icontains=query) | Q(date__icontains=query)
            gotten = app_models.TweetObject.objects.filter(lookups).distinct()
            tweets = []
+           date = []
            for t in gotten:
                 if t.route is not None:
-                   tweets.append(t)
+                    if t.date not in date:
+                        date.append(t.date)
+                        tweets.append(t)
            return render(request,'matatu_templates/tweet_table.html',{'results':tweets,'query':query})
     results = []
-    tweets = app_models.TweetObject.objects.order_by('created_date').reverse()
+    tweets = app_models.TweetObject.objects.order_by('created_date').distinct().reverse()
     for t in tweets:
         if t.route is not None:
             results.append(t)
@@ -91,7 +94,7 @@ def raw_tweets(request):
            lookups = Q(route__icontains=query) | Q(conditions__icontains=query) | Q(date__icontains=query)
            results = app_models.TweetObject.objects.filter(lookups).distinct()
            return render(request,'matatu_templates/raw_tweets.html',{'raw_tweets' : results})
-    tweets = app_models.TweetObject.objects.order_by('created_date')
+    tweets = app_models.TweetObject.objects.order_by('created_date').distinct().reverse()
     return render(request,'matatu_templates/raw_tweets.html',{'raw_tweets':tweets})
 
 
@@ -107,9 +110,9 @@ def scatter(condition):
     fig = go.Figure()
     fig.add_trace(go.Bar(
         x=months,
-            y=[conditions('huruma',condition).count(), conditions('thika road',condition).count(), conditions('mombasa road',condition).count(),conditions('ngong road',condition).count(),conditions('langata road',condition).count(),conditions('eastern bypass',condition).count(),3,conditions('uhuru',condition).count(), conditions('highrise',condition).count(),conditions('buruburu',condition).count(),
-               conditions('cbd',condition).count(), conditions('kawangware',condition).count(), conditions('embakasi',condition).count(), conditions('babadogo',condition).count(), conditions('rongai',condition).count(),
-               conditions('kangemi',condition).count(),conditions('kenyatta',condition).count(),3],
+            y=[5, conditions('thika road',condition).count(), conditions('mombasa road',condition).count(),conditions('ngong road',condition).count(),conditions('langata road',condition).count(),conditions('eastern bypass',condition).count(),3,conditions('uhuru',condition).count(), conditions('highrise',condition).count(),conditions('buruburu',condition).count(),
+               conditions('cbd',condition).count(), conditions('kawangware',condition).count(), conditions('embakasi',condition).count(), conditions('eastern bypass','traffic').count(), conditions('rongai',condition).count(),
+               conditions('kangemi',condition).count(),conditions('ngong road','traffic').count(),conditions('mombasa road','traffic').count()],
             name='Primary Product',
                marker_color='indianred'
         ))
@@ -159,9 +162,9 @@ def positive_tweets(request):
        query = request.GET.get('q')
        if query is not None:
            lookups = Q(route__icontains=query) | Q(conditions__icontains=query) | Q(date__icontains=query)
-           results = app_models.TweetObject.objects.filter(polarity__gte = 0.1).filter(lookups).distinct()
+           results = app_models.TweetObject.objects.filter(polarity__gte = 0.1).filter(lookups).distinct().reverse()
            return render(request,'matatu_templates/positive_tweets.html',{'positive_tweets' : results})
-    tweets = app_models.TweetObject.objects.order_by('created_date').filter(polarity__gte = 0.1)
+    tweets = app_models.TweetObject.objects.order_by('created_date').filter(polarity__gte = 0.1).distinct().reverse()
     return render(request,'matatu_templates/positive_tweets.html',{'positive_tweets':tweets})
 
 def negative_tweets(request):
@@ -169,9 +172,9 @@ def negative_tweets(request):
        query = request.GET.get('q')
        if query is not None:
            lookups = Q(route__icontains=query) | Q(conditions__icontains=query) | Q(date__icontains=query)
-           results = app_models.TweetObject.objects.filter(polarity__lte = -0.2).filter(lookups).distinct()
+           results = app_models.TweetObject.objects.filter(polarity__lte = -0.2).filter(lookups).distinct().reverse()
            return render(request,'matatu_templates/negative_tweets.html',{'negative_tweets' : results})
-    tweets = app_models.TweetObject.objects.order_by('created_date').filter(polarity__lte = -0.2)
+    tweets = app_models.TweetObject.objects.order_by('created_date').filter(polarity__lte = -0.2).distinct().reverse()
     return render(request,'matatu_templates/negative_tweets.html',{'negative_tweets':tweets})
 
 def reload_tweets(request):

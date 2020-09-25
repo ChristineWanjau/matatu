@@ -37,5 +37,17 @@ def main():
         delete_all_tasks(conn)
 
 
+def delete_all_tasks(conn):
+    """
+    Delete all rows in the tasks table
+    :param conn: Connection to the SQLite database
+    :return:
+    """
+    sql = "DELETE FROM matatu_TweetObject"
+    cur = conn.cursor()
+    cur.execute(sql)
+    conn.commit()
+
+    
 if __name__ == '__main__':
     main()
