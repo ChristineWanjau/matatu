@@ -1,3 +1,2 @@
-corpus
 tokenize
 wordnet
